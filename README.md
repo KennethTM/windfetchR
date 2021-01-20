@@ -51,7 +51,8 @@ plot(rast_fetch_single)
 plot(rast_fetch_many)
 
 #calculate 'smoothed' fetch using one or more input angles
-#in this case, fetch from 'n' angles spaced by 'interval' are added to each side of 'angle' and the final fetch an average of these
+#in this case, fetch from 'n' angles spaced by 'interval' are added to 
+#each side of 'angle' and the final fetch an average of these
 rast_fetch_smooth_single <- fetch_smooth(rast_islake, angle = 45, n = 2, interval = 2)
 rast_fetch_smooth_many <- fetch_smooth(rast_islake, angle = seq(0, 360, 45), n = 2, interval = 2)
 
@@ -62,7 +63,8 @@ plot(rast_fetch_smooth_many)
 #this can speed up calculation of many angles or larges rasters
 #to enable this, just call future:plan()
 
-#create higher resolution raster and calculate fetch using both single and multi processing
+#create higher resolution raster and calculate fetch using 
+#both single and multi processing
 rast_large <- disaggregate(rast, fact = 5)
 rast_large_islake <- (rast_large ==  1)
 
@@ -70,22 +72,26 @@ rast_large_islake <- (rast_large ==  1)
 library(future)
 plan(sequential)
 
-t0 <- Sys.time()
-rast_large_single_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
-t1 <- Sys.time()
+system.time(
+  {
+    rast_large_single_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
+  }
+)
 
-print(t1-t0)
-#Time difference of 4.6 mins
+#user   system  elapsed 
+#105.91 211.462 318.129 
 
 #time using parallel processing
 plan(multisession)
 
-t0 <- Sys.time()
-rast_large_multi_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
-t1 <- Sys.time()
+system.time(
+  {
+    rast_large_multi_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
+  }
+)
 
-print(t1-t0)
-#Time difference of 2.6 mins
+#user  system elapsed 
+#2.181 0.836  151.130 
 
 #For small workloads the benefit of parallel processing is not as huge
 #see the future and future.apply for more info on parallel processing
@@ -93,4 +99,4 @@ print(t1-t0)
 
 Example of output from fetch_smooth function:
 
-![Example fetch raster](https://github.com/KennethTM/windfetchR/blob/main/test/example_img.png)
+![](https://github.com/KennethTM/windfetchR/blob/main/test/example_img.png)

@@ -47,25 +47,42 @@ rast_large_islake <- (rast_large ==  1)
 library(future)
 plan(sequential)
 
-t0 <- Sys.time()
-rast_large_single_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
-t1 <- Sys.time()
+system.time(
+  {
+    rast_large_single_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
+  }
+)
 
-print(t1-t0)
-#Time difference of 4.621597 mins
+#user   system  elapsed 
+#105.91 211.462 318.129 
 
 #time using parallel processing
 plan(multisession)
 
-t0 <- Sys.time()
-rast_large_multi_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
-t1 <- Sys.time()
+system.time(
+  {
+    rast_large_multi_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
+  }
+)
 
-print(t1-t0)
-#Time difference of 2.565013 mins
+#user  system elapsed 
+#2.181 0.836  151.130 
 
 #For small workloads the benefit of parallel processing is not as huge
 #see the future and future.apply for more info on parallel processing
+
+
+
+
+
+#experiment with timings
+system.time(
+  {
+    fetch_smooth(rast_islake, angle = seq(0, 360, 22.5), n = 2, interval = 2)
+  }
+)
+
+
 
 
 

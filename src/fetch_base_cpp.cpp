@@ -26,6 +26,10 @@ NumericMatrix fetch_base_cpp(NumericMatrix x, double res) {
         
       }
       
+      if (j % 500 == 0){
+        Rcpp::checkUserInterrupt();
+      }
+      
     }
 
     return out;
