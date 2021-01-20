@@ -93,4 +93,4 @@ print(t1-t0)
 
 Example of output from fetch_smooth function:
 
-![Example fetch raster](https://github.com/KennethTM/windfetchR/blob/master/test/example_img.png)
+![Example fetch raster](https://github.com/KennethTM/windfetchR/blob/main/test/example_img.png)
