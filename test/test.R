@@ -1,27 +1,4 @@
-# windfetchR
-
-## R package for calculating wind fetch with rasters
-
-This package provides function to calculate wind fetch, the unobstructed travel length of wind across a surface from a given direction, using rasters as implemented in the Raster package. 
-
-Two methods for calculating fetch are available, a simple approach only considering the input angle and a 'smoothed' version, where the result is an average of minor angles given by a user defined number and interval.
-
-The underlying function is implemented using Rcpp to speed up processing. The package support parallel processing using the future package.
-
-### Installation
-
-Use the 'remotes' package to install the package from Github:
-
-```r
-remotes::install_github('KennetTM/windfetchR')
-```
-
-### Examples of useage
-
-The below examples exercise the function in the package:
-
-```r
-#load supplementary packages
+#test script to exercise functions in package
 library(sf)
 library(raster)
 library(windfetchR)
@@ -75,7 +52,7 @@ rast_large_single_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
 t1 <- Sys.time()
 
 print(t1-t0)
-#Time difference of 4.6 mins
+#Time difference of 4.621597 mins
 
 #time using parallel processing
 plan(multisession)
@@ -85,12 +62,17 @@ rast_large_multi_proc <- fetch(rast_large_islake, angle = seq(0, 360, 22.5))
 t1 <- Sys.time()
 
 print(t1-t0)
-#Time difference of 2.6 mins
+#Time difference of 2.565013 mins
 
 #For small workloads the benefit of parallel processing is not as huge
 #see the future and future.apply for more info on parallel processing
-```
 
-Example of output from fetch_smooth function:
 
-![Example fetch raster](https://github.com/KennethTM/windfetchR/blob/master/test/example_img.png)
+
+#plot for readme
+rast_fetch_smooth_many <- fetch_smooth(rast_islake, angle = seq(0, by = 45, length.out=8), n = 2, interval = 2)
+
+library(rasterVis)
+theme <- rasterTheme(region = bpy.colors(20))
+rasterVis::levelplot(rast_fetch_smooth_many, par.settings = theme)
+
