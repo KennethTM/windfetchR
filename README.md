@@ -13,7 +13,7 @@ The underlying function is implemented using Rcpp to speed up processing. The pa
 Use the 'remotes' package to install the package from Github:
 
 ```r
-remotes::install_github('KennetTM/windfetchR')
+remotes::install_github('KennethTM/windfetchR')
 ```
 
 ### Examples of useage
